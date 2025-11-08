@@ -1,0 +1,44 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Reader One",
+      "email": "reader1@example.com",
+      "role": "reader"
+    }
+  ],
+
+  "book": [
+    {
+      "id": 1,
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "genre_id": 1,
+      "rating": 4.4
+    },
+    {
+      "id": 2,
+      "title": "1984",
+      "author": "George Orwell",
+      "genre_id": 2,
+      "rating": 4.8
+    }
+  ],
+
+  "genre": [
+    {
+      "id": 1,
+      "name": "Classics"
+    },
+    {
+      "id": 2,
+      "name": "Dystopian"
+    }
+  ]
+}
