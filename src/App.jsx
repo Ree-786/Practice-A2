@@ -1,44 +1,42 @@
-import { useState, useEffect } from "react";
-import { Admin, Resource } from "react-admin";
+import React, { useState, useEffect } from "react";
+import { Admin, Resource, ListGuesser } from "react-admin";
 import { createTrailbaseProvider } from "./admin/ra-trailbase";
-import { createMockProvider } from "./offline/mock-provider";
 
-// Toggle between exam API and offline mode
-const USE_MOCK = false;
+// ✅ import your new list components
+import { DriverList } from "./drivers";
+import { RaceList } from "./races";
+import { ScoreList } from "./scores";
+import { FlagBearerList } from "./flag_bearers";
 
 const TRAILBASE_URL =
-  "https://special-capybara-jj4p5jgrxp4q35p6x-4000.app.github.dev/";
+  "https://legendary-robot-jj4p75495wjwhqpqj-4000.app.github.dev";
+
+
 
 function App() {
-  const [provider, setProvider] = useState(null);
+  const [dataProvider, setDataProvider] = useState(null);
+  const [authProvider, setAuthProvider] = useState(null);
 
   useEffect(() => {
     async function load() {
-      let dp, ap;
-
-      if (USE_MOCK) {
-        ({ dataProvider: dp, authProvider: ap } = createMockProvider());
-      } else {
-        ({ dataProvider: dp, authProvider: ap } =
-          await createTrailbaseProvider(TRAILBASE_URL));
-      }
-
-      setProvider({ dataProvider: dp, authProvider: ap });
+      const providers = await createTrailbaseProvider(TRAILBASE_URL);
+      setDataProvider(providers.dataProvider);
+      setAuthProvider(providers.authProvider);
     }
-
     load();
   }, []);
 
-  if (!provider) return <p>Loading...</p>;
+  if (!dataProvider || !authProvider) return <div>Loading…</div>;
 
   return (
     <Admin
-      dataProvider={provider.dataProvider}
-      authProvider={provider.authProvider}
+      dataProvider={dataProvider}
+      authProvider={authProvider}
     >
-      <Resource name="user" />
-      <Resource name="book" />
-      <Resource name="genre" />
+      <Resource name="drivers" list={DriverList} />
+      <Resource name="races" list={RaceList} />
+      <Resource name="scores" list={ScoreList} />
+      <Resource name="flag_bearers" list={FlagBearerList} />
     </Admin>
   );
 }
